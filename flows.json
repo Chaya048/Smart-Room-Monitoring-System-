@@ -1,0 +1,2143 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Mini-Project MQTT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "mqtt_in_node",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "TU/TSE/LE380/nbiot/sensor/c4286f24",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "emqx_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 320,
+        "wires": [
+            [
+                "json_node"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Check Data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "check_limit",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "Alert if > 30",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "30",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1030,
+        "y": 480,
+        "wires": [
+            [
+                "format_event",
+                "timestamp_func"
+            ]
+        ]
+    },
+    {
+        "id": "timestamp_func",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Create temp alert",
+        "func": "var time = new Date().toLocaleTimeString();\nmsg.payload = \"อุณหภูมิในห้องคือ \" + msg.payload + \"°C ณ เวลา \" + time + \"อาจารย์ Supachai ปิดแอร์\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 480,
+        "wires": [
+            [
+                "6a9ae7bf45e72ea0"
+            ]
+        ]
+    },
+    {
+        "id": "a4856bd1d94844b2",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "9779968d831e3c27",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "29",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "50",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1010,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a849c931f16e904",
+        "type": "ui-chart",
+        "z": "f6f2187d.f17ca8",
+        "group": "9779968d831e3c27",
+        "name": "",
+        "label": "chart",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "12",
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1010,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0c3270f26362a917",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "2f49acb8ebf3ba0c",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "61",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1010,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a9ae7bf45e72ea0",
+        "type": "ui-notification",
+        "z": "f6f2187d.f17ca8",
+        "ui": "b922c537351278e0",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "5",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "",
+        "x": 1510,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fbb462020fda8abf",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Prepare CSV",
+        "func": "// 1. ตั้งค่า Config (แก้ Path ตรงนี้ที่เดียว)\nvar basePath = \"D:/LE380/mini-MQTT/\";\nvar filenamePrefix = \"data_\";\n\n// 2. สร้างชื่อไฟล์ตามวันที่ปัจจุบัน (เช่น data_13-12-2025.csv)\nvar now = new Date();\nvar day = String(now.getDate()).padStart(2, '0');\nvar month = String(now.getMonth() + 1).padStart(2, '0');\nvar year = now.getFullYear();\nvar dateString = day + \"-\" + month + \"-\" + year;\nvar fullFilename = basePath + filenamePrefix + dateString + \".csv\";\n\n// ตั้งค่าชื่อไฟล์ให้ message นี้\nmsg.filename = fullFilename; \n\n// 3. เตรียมข้อมูล Data Row (เวลา, Temp, Humid, Light)\nvar timeString = now.toLocaleTimeString(); // เวลาปัจจุบัน\nvar temp = msg.payload.temp.toFixed(2) || 0;\nvar humid = msg.payload.humid.toFixed(2) || 0;\nvar light = msg.payload.light.toFixed(2) || 0;\n\n// สร้างบรรทัดข้อมูล: \"14:30:05, 28.5, 60, 500\"\nvar dataRow = timeString + \",\" + temp + \",\" + humid + \",\" + light + \"\\n\";\n\n// 4. เช็ค Logic: เป็นไฟล์ใหม่หรือไม่?\nvar lastFile = flow.get(\"currentFilename\"); // ไปดูความจำเดิม\n\nif (fullFilename !== lastFile) {\n    // --- กรณี: เปลี่ยนวันใหม่ หรือ เพิ่งเริ่มโปรแกรม ---\n    \n    // อัปเดตความจำว่าเป็นชื่อไฟล์ใหม่แล้วนะ\n    flow.set(\"currentFilename\", fullFilename);\n    \n    msg.payload = { payload: dataRow, filename: fullFilename };\n    \n    return [msg]; \n    \n} else {\n    // --- กรณี: ไฟล์เดิม วันเดิม ---\n    \n    // ส่งแค่ Data อย่างเดียว\n    msg.payload = dataRow;\n    return [msg];\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 200,
+        "wires": [
+            [
+                "211874188b26dc49"
+            ]
+        ]
+    },
+    {
+        "id": "211874188b26dc49",
+        "type": "file",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1000,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "66fa1c58f5d19728",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "to temp",
+        "func": "msg.payload = Number(msg.payload.temp).toFixed(2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 420,
+        "wires": [
+            [
+                "a4856bd1d94844b2",
+                "9a849c931f16e904",
+                "check_limit"
+            ]
+        ]
+    },
+    {
+        "id": "e5398f2309a1b75d",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "to humid",
+        "func": "msg.payload = Number(msg.payload.humid).toFixed(2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 600,
+        "wires": [
+            [
+                "0c3270f26362a917",
+                "eb62a60687325ee7",
+                "2f08a12b54756509"
+            ]
+        ]
+    },
+    {
+        "id": "deae57df0b5e32a6",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "to light",
+        "func": "msg.payload = Number(msg.payload.light).toFixed(2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 840,
+        "wires": [
+            [
+                "dc0f69e238e6d0cb",
+                "6b18cb02701922d5",
+                "94c23ca4c576a008"
+            ]
+        ]
+    },
+    {
+        "id": "dc0f69e238e6d0cb",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "989f8eb23db8b6a2",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "Lux",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "400",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "1000",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "2000",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1010,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "list_files_cmd",
+        "type": "exec",
+        "z": "f6f2187d.f17ca8",
+        "command": "dir \"D:\\LE380\\mini-MQTT\\*.csv\" /b",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "List CSV Files (Win)",
+        "x": 400,
+        "y": 1280,
+        "wires": [
+            [
+                "format_dropdown"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "format_dropdown",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format for Dropdown",
+        "func": "// 1. รับค่ารายชื่อไฟล์มาจาก Command Line\nvar fileListString = msg.payload;\n\n// ถ้าไม่มีข้อมูล ให้จบการทำงาน\nif (!fileListString) return msg;\n\n// 2. แยกบรรทัดและทำความสะอาด\nvar files = fileListString.split(\"\\n\"); // ใช้ \\n รองรับทั้ง Windows/Linux\n\nvar options = [];\n\nfiles.forEach(function(filename) {\n    // ลบช่องว่างหัวท้าย\n    filename = filename.trim();\n    \n    // เงื่อนไขการคัดเลือกไฟล์:\n    // 1. ต้องไม่เป็นค่าว่าง\n    // 2. ต้องลงท้ายด้วย .csv\n    // 3. (สำคัญ) ต้องขึ้นต้นด้วย \"data_\" เท่านั้น (เพื่อตัดไฟล์ ai_log ทิ้ง)\n    if (filename.length > 0 && filename.endsWith(\".csv\") && filename.startsWith(\"data_\")) {\n        options.push(filename);\n    }\n});\n\n// 3. เรียงลำดับจาก \"มากไปน้อย\" (ไฟล์วันที่ 14 จะขึ้นก่อน 13)\noptions.sort().reverse();\n\n// 4. ส่งไปให้ Dropdown แสดงผล\nmsg.options = options;\n\n// (แถม) ตั้งค่า Default ให้เลือกไฟล์บนสุดเสมอ (ไฟล์ล่าสุด)\nif (options.length > 0) {\n    msg.payload = options[0]; \n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 1280,
+        "wires": [
+            [
+                "09e7eef16a05f485"
+            ]
+        ]
+    },
+    {
+        "id": "set_read_path",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Set Full Path",
+        "func": "// ตั้งค่า Path โฟลเดอร์หลัก (ต้องแก้ตรงนี้ให้ตรงกับเครื่องคุณ)\nvar basePath = \"D:/LE380/mini-MQTT/\";\n\n// เอาชื่อไฟล์ที่เลือกจาก Dropdown มาต่อท้าย\nmsg.filename = basePath + msg.payload;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 1360,
+        "wires": [
+            [
+                "read_selected_file"
+            ]
+        ]
+    },
+    {
+        "id": "read_selected_file",
+        "type": "file in",
+        "z": "f6f2187d.f17ca8",
+        "name": "Read File",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 730,
+        "y": 1360,
+        "wires": [
+            [
+                "csv_parser_2"
+            ]
+        ]
+    },
+    {
+        "id": "csv_parser_2",
+        "type": "csv",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "time,temp,humid,light",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 900,
+        "y": 1360,
+        "wires": [
+            [
+                "8677140189512ee8"
+            ]
+        ]
+    },
+    {
+        "id": "09e7eef16a05f485",
+        "type": "ui-dropdown",
+        "z": "f6f2187d.f17ca8",
+        "group": "38c320e9938e1ab0",
+        "name": "",
+        "label": "Select Option:",
+        "tooltip": "",
+        "order": 1,
+        "width": "10",
+        "height": "1",
+        "passthru": false,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 840,
+        "y": 1280,
+        "wires": [
+            [
+                "save_filename"
+            ]
+        ]
+    },
+    {
+        "id": "8677140189512ee8",
+        "type": "ui-table",
+        "z": "f6f2187d.f17ca8",
+        "group": "38c320e9938e1ab0",
+        "name": "",
+        "label": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1050,
+        "y": 1360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "save_filename",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save to Memory",
+        "rules": [
+            {
+                "t": "set",
+                "p": "selected_csv",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "get_filename",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Get Filename",
+        "func": "// ดึงชื่อไฟล์ที่ฝากไว้ใน Memory (flow variable)\nvar filename = flow.get(\"selected_csv\");\n\n// ถ้ายังไม่เคยเลือกไฟล์เลย ให้แจ้งเตือนและหยุดทำงาน\nif (!filename) {\n    node.warn(\"กรุณาเลือกไฟล์ก่อนกดปุ่ม\");\n    msg.payload = \"Please select a file first!\";\n    // return null เพื่อไม่ให้ส่งไปทำงานต่อ\n    return null;\n}\n\n// ถ้ามีชื่อไฟล์ ก็ส่งต่อไปทำงานต่อได้เลย\nmsg.payload = filename;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1360,
+        "wires": [
+            [
+                "set_read_path"
+            ]
+        ]
+    },
+    {
+        "id": "f81d2ceb77a9a196",
+        "type": "ui-button",
+        "z": "f6f2187d.f17ca8",
+        "group": "38c320e9938e1ab0",
+        "name": "Load_button",
+        "label": "Load data",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 1360,
+        "wires": [
+            [
+                "get_filename"
+            ]
+        ]
+    },
+    {
+        "id": "48cd530224775e63",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "900",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1280,
+        "wires": [
+            [
+                "list_files_cmd"
+            ]
+        ]
+    },
+    {
+        "id": "6b18cb02701922d5",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "Alert if < 50",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "50",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1030,
+        "y": 900,
+        "wires": [
+            [
+                "3874666ec4e5c423",
+                "12ae957e299f43ee"
+            ]
+        ]
+    },
+    {
+        "id": "3874666ec4e5c423",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Create light alert",
+        "func": "var time = new Date().toLocaleTimeString();\nmsg.payload = \"อาจารย์ Supachai ปิดไฟ ตอนเวลา\" + time;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 900,
+        "wires": [
+            [
+                "139ee2954b9b3614"
+            ]
+        ]
+    },
+    {
+        "id": "139ee2954b9b3614",
+        "type": "ui-notification",
+        "z": "f6f2187d.f17ca8",
+        "ui": "b922c537351278e0",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "5",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "",
+        "x": 1510,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eb62a60687325ee7",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "Alert if > 60",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "60",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1030,
+        "y": 680,
+        "wires": [
+            [
+                "3f34dfe0a08e0143",
+                "4cce20d513ee7c39"
+            ]
+        ]
+    },
+    {
+        "id": "3f34dfe0a08e0143",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Create humid alert",
+        "func": "var time = new Date().toLocaleTimeString();\nmsg.payload = \"ความชื้นในห้อง ณ เวลา \" + time + \" คือ \" + msg.payload + \"% ซึ่งสูงกว่า 60% อาจารย์ Supachai ปิดแอร์\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 680,
+        "wires": [
+            [
+                "39883ab626af55a9"
+            ]
+        ]
+    },
+    {
+        "id": "39883ab626af55a9",
+        "type": "ui-notification",
+        "z": "f6f2187d.f17ca8",
+        "ui": "b922c537351278e0",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "5",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "",
+        "x": 1510,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "format_event",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format Event Data",
+        "func": "// 1. ดึงรายการแจ้งเตือนเก่ามา (ถ้ามี)\nvar eventList = flow.get(\"eventHistory\") || [];\n\n// 2. สร้างข้อมูลเหตุการณ์ใหม่\nvar newEvent = {\n    \"time\": new Date().toLocaleTimeString(),\n    \"status\": \"⚠️ High Temp\",\n    \"detail\": msg.payload + \" °C\", // เอาค่าอุณหภูมิมาใส่\n    \"action\": \"ปิดแอร์\"         // แนะนำสิ่งที่ควรทำ\n};\n\n// 3. ใส่ไว้บนสุด (ล่าสุดอยู่บน)\neventList.unshift(newEvent);\n\n// 4. เก็บไว้แค่ 20 รายการล่าสุด (ไม่ให้ตารางยาวเกิน)\nif (eventList.length > 20) {\n    eventList = eventList.slice(0, 20);\n}\n\n// 5. บันทึกกลับเข้า Memory\nflow.set(\"eventHistory\", eventList);\n\n// ส่งข้อมูลไปแสดงที่ตาราง\nmsg.payload = eventList;\n\n// --- ส่วนเสริม: ส่งข้อมูลเดี่ยวไปบันทึก CSV ---\n// เราจะส่ง msg แยกออกไปอีกขาหนึ่งเพื่อบันทึกไฟล์\nvar now = new Date();\nvar day = String(now.getDate()).padStart(2, '0');\nvar month = String(now.getMonth() + 1).padStart(2, '0');\nvar year = now.getFullYear();\nvar dateString = day + \"-\" + month + \"-\" + year;\n\nvar csvMsg = { \n    payload: newEvent.time + \",\" + newEvent.status + \",\" + newEvent.detail + \"\\n\",\n    filename: \"D:/LE380/mini-MQTT/Alart_Temp_\" + dateString \n};\n\nreturn [msg, csvMsg]; // ขา 1 ไปตาราง, ขา 2 ไปไฟล์",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 400,
+        "wires": [
+            [
+                "64c0ebe3166e9106"
+            ],
+            [
+                "save_alarm_file"
+            ]
+        ]
+    },
+    {
+        "id": "save_alarm_file",
+        "type": "file",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save Alarm Log",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1500,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "64c0ebe3166e9106",
+        "type": "ui-table",
+        "z": "f6f2187d.f17ca8",
+        "group": "9779968d831e3c27",
+        "name": "",
+        "label": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1470,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4cce20d513ee7c39",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format Event Data",
+        "func": "// 1. ดึงรายการแจ้งเตือนเก่ามา (ถ้ามี)\nvar eventList = flow.get(\"eventHistory\") || [];\n\n// 2. สร้างข้อมูลเหตุการณ์ใหม่\nvar newEvent = {\n    \"time\": new Date().toLocaleTimeString(),\n    \"status\": \"⚠️ High Humid\",\n    \"detail\": msg.payload + \"%\", \n    \"action\": \"ปิดแอร์\"         \n};\n\n// 3. ใส่ไว้บนสุด (ล่าสุดอยู่บน)\neventList.unshift(newEvent);\n\n// 4. เก็บไว้แค่ 20 รายการล่าสุด (ไม่ให้ตารางยาวเกิน)\nif (eventList.length > 20) {\n    eventList = eventList.slice(0, 20);\n}\n\n// 5. บันทึกกลับเข้า Memory\nflow.set(\"eventHistory\", eventList);\n\n// ส่งข้อมูลไปแสดงที่ตาราง\nmsg.payload = eventList;\n\n// --- ส่วนเสริม: ส่งข้อมูลเดี่ยวไปบันทึก CSV ---\n// เราจะส่ง msg แยกออกไปอีกขาหนึ่งเพื่อบันทึกไฟล์\nvar now = new Date();\nvar day = String(now.getDate()).padStart(2, '0');\nvar month = String(now.getMonth() + 1).padStart(2, '0');\nvar year = now.getFullYear();\nvar dateString = day + \"-\" + month + \"-\" + year;\n\nvar csvMsg = { \n    payload: newEvent.time + \",\" + newEvent.status + \",\" + newEvent.detail + \"\\n\",\n    filename: \"D:/LE380/mini-MQTT/Alart_Humid_\" + dateString \n};\n\nreturn [msg, csvMsg]; // ขา 1 ไปตาราง, ขา 2 ไปไฟล์",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 600,
+        "wires": [
+            [
+                "e8d33545c832163c"
+            ],
+            [
+                "3129d966b8341d80"
+            ]
+        ]
+    },
+    {
+        "id": "3129d966b8341d80",
+        "type": "file",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save Alarm Log",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1500,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e8d33545c832163c",
+        "type": "ui-table",
+        "z": "f6f2187d.f17ca8",
+        "group": "2f49acb8ebf3ba0c",
+        "name": "",
+        "label": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1470,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "12ae957e299f43ee",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format Event Data",
+        "func": "// 1. ดึงรายการแจ้งเตือนเก่ามา (ถ้ามี)\nvar eventList = flow.get(\"eventHistory\") || [];\n\n// 2. สร้างข้อมูลเหตุการณ์ใหม่\nvar newEvent = {\n    \"time\": new Date().toLocaleTimeString(),\n    \"status\": \"⚠️ High Light\",\n    \"detail\": msg.payload + \"Lux\", \n    \"action\": \"ปิดไฟ\"         \n};\n\n// 3. ใส่ไว้บนสุด (ล่าสุดอยู่บน)\neventList.unshift(newEvent);\n\n// 4. เก็บไว้แค่ 20 รายการล่าสุด (ไม่ให้ตารางยาวเกิน)\nif (eventList.length > 20) {\n    eventList = eventList.slice(0, 20);\n}\n\n// 5. บันทึกกลับเข้า Memory\nflow.set(\"eventHistory\", eventList);\n\n// ส่งข้อมูลไปแสดงที่ตาราง\nmsg.payload = eventList;\n\n// --- ส่วนเสริม: ส่งข้อมูลเดี่ยวไปบันทึก CSV ---\n// เราจะส่ง msg แยกออกไปอีกขาหนึ่งเพื่อบันทึกไฟล์\nvar now = new Date();\nvar day = String(now.getDate()).padStart(2, '0');\nvar month = String(now.getMonth() + 1).padStart(2, '0');\nvar year = now.getFullYear();\nvar dateString = day + \"-\" + month + \"-\" + year;\n\nvar csvMsg = { \n    payload: newEvent.time + \",\" + newEvent.status + \",\" + newEvent.detail + \"\\n\",\n    filename: \"D:/LE380/mini-MQTT/Alart_Light_\" + dateString \n};\n\nreturn [msg, csvMsg]; // ขา 1 ไปตาราง, ขา 2 ไปไฟล์",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 820,
+        "wires": [
+            [
+                "c27f94c20206f7db"
+            ],
+            [
+                "5b0a134508306de9"
+            ]
+        ]
+    },
+    {
+        "id": "5b0a134508306de9",
+        "type": "file",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save Alarm Log",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1500,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c27f94c20206f7db",
+        "type": "ui-table",
+        "z": "f6f2187d.f17ca8",
+        "group": "989f8eb23db8b6a2",
+        "name": "",
+        "label": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1470,
+        "y": 800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "prepare_prompt",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Prepare Prompt",
+        "func": "// 1. รับค่าจริงจาก Sensor\nvar temp = msg.payload.temp || 0;\nvar humid = msg.payload.humid || 0;\nvar light = msg.payload.light || 0;\n\n// 2. ดึงเวลาปัจจุบัน\nvar now = new Date();\nvar timeString = now.toLocaleTimeString(\"th-TH\", { hour: '2-digit', minute: '2-digit' });\n\n// 3. สร้าง Prompt แบบครบเครื่อง (Predict + Comfort Score)\nvar promptText = `\nContext: \nYou are an intelligent Assistant monitoring the private office of \"Ajarn Supachai\" (Head of Electrical Engineering Dept, Thailand).\nThis is a WORKPLACE.\n\nCurrent Time: ${timeString}\nSensor Data:\n- Temperature: ${temp} °C\n- Humidity: ${humid} %\n- Light: ${light} Lux\n\nTask:\n1. PREDICT what \"Ajarn Supachai\" is likely doing right now based on Time and Environment.\n2. CALCULATE a \"Comfort Score\" (0-10) for working in this room (10 = Perfect Environment, 0 = Terrible).\n\nGuidelines for your imagination:\n- Use common sense of Office Life in Thailand.\n- Comfort Score: Consider that 24-26°C is perfect for working. Too hot (>28) or too cold (<22) lowers the score.\n- High humidity (>65%) feels sticky and uncomfortable.\n- Activity: If it's late night and lights are off, he's gone home. If lights are on, he's diligent.\n\nOutput Requirements:\n1. Return a JSON object ONLY.\n2. Format: \n   {\n     \"activity\": \"Short Status (Thai)\", \n     \"reason\": \"1 insightful sentence explaining why (Thai)\",\n     \"score\": number (0-10, can be decimal like 8.5)\n   }\n3. MUST mention \"อาจารย์ศุภชัย\" or \"หัวหน้าภาค\".\n`;\n\n// 4. แพ็คใส่กล่องส่ง Google\nmsg.payload = {\n    \"contents\": [{\n        \"parts\": [{\n            \"text\": promptText\n        }]\n    }]\n};\n\nmsg.headers = {\n    \"Content-Type\": \"application/json\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1040,
+        "wires": [
+            [
+                "gemini_request"
+            ]
+        ]
+    },
+    {
+        "id": "gemini_request",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "Call Gemini API",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyBpnrVyNoMR7GCbz9EzqC6CxUb2HDMjBzo",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1050,
+        "y": 1040,
+        "wires": [
+            [
+                "parse_ai_response"
+            ]
+        ]
+    },
+    {
+        "id": "parse_ai_response",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Parse Response",
+        "func": "// ดึงข้อความที่ Gemini ตอบกลับมา\ntry {\n    var aiText = msg.payload.candidates[0].content.parts[0].text;\n    \n    // ล้าง format เผื่อมี markdown (```json ... ```)\n    aiText = aiText.replace(/```json/g, \"\").replace(/```/g, \"\").trim();\n    \n    // แปลง Text เป็น Object\n    var result = JSON.parse(aiText);\n    \n    msg.payload = result;\n    return msg;\n} catch (e) {\n    // ให้มันฟ้องออกมาว่า Payload หน้าตาเป็นยังไง ถึง Error\n    node.warn(\"=== AI ERROR DETAILS ===\");\n    node.warn(msg.payload); \n    node.warn(e);\n    \n    // ตั้งค่า Default เพื่อไม่ให้ Gauge พัง\n    msg.payload = { score: 0, comment: \"AI Connection Error: Please check API Key or Logs\" };\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 1040,
+        "wires": [
+            [
+                "584a9fcd26a60c14",
+                "5c0b94331236993e",
+                "f4d249fbbe6408ec",
+                "format_ai_csv"
+            ]
+        ]
+    },
+    {
+        "id": "584a9fcd26a60c14",
+        "type": "ui-gauge",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "c7218db6c6bff541",
+        "order": 1,
+        "value": "payload.score",
+        "valueType": "msg",
+        "width": "0",
+        "height": "0",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "คะแนนความสุขสบาย (Comfort Score)",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "7",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "10",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1530,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c0b94331236993e",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "c7218db6c6bff541",
+        "order": 2,
+        "width": "12",
+        "height": "1",
+        "name": "",
+        "label": "Activity : ",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": true,
+        "className": "",
+        "value": "payload.activity",
+        "valueType": "msg",
+        "x": 1440,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "6662b9134e485207",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 1040,
+        "wires": [
+            [
+                "prepare_prompt"
+            ]
+        ]
+    },
+    {
+        "id": "f4d249fbbe6408ec",
+        "type": "ui-text",
+        "z": "f6f2187d.f17ca8",
+        "group": "c7218db6c6bff541",
+        "order": 3,
+        "width": "12",
+        "height": "1",
+        "name": "",
+        "label": "Reason : ",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": true,
+        "className": "",
+        "value": "payload.reason",
+        "valueType": "msg",
+        "x": 1440,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "2f08a12b54756509",
+        "type": "ui-chart",
+        "z": "f6f2187d.f17ca8",
+        "group": "2f49acb8ebf3ba0c",
+        "name": "",
+        "label": "chart",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "12",
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1010,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94c23ca4c576a008",
+        "type": "ui-chart",
+        "z": "f6f2187d.f17ca8",
+        "group": "989f8eb23db8b6a2",
+        "name": "",
+        "label": "chart",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "12",
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 1010,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "format_ai_csv",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format AI to CSV",
+        "func": "// 1. รับค่าผลลัพธ์จาก AI\nvar ai = msg.payload;\n\n// เปลี่ยนชื่อตัวแปรจาก eventHistory เป็น aiHistory (เพื่อแยกถังเก็บข้อมูล)\nvar aiList = flow.get(\"aiHistory\") || [];\n\n// ป้องกัน Error\nif (typeof ai.score === 'undefined') {\n    return null;\n}\n\n// 2. สร้างเวลาปัจจุบัน\nvar now = new Date();\nvar timeLog = now.toLocaleString(\"th-TH\");\n\n// --- ส่วนที่ 1: จัดการข้อมูลสำหรับ Table AI (ขาที่ 1) ---\nvar newEvent = {\n    \"time\": timeLog,\n    \"activity\": ai.activity,\n    \"reason\": ai.reason,\n    \"score\": ai.score\n};\n\n// เพิ่มรายการใหม่ไว้บนสุด\naiList.unshift(newEvent);\n\n// ตัดให้เหลือแค่ 20 รายการ\nif (aiList.length > 20) {\n    aiList = aiList.slice(0, 20);\n}\n\n// บันทึกกลับเข้า Memory (ใช้ชื่อใหม่ aiHistory)\nflow.set(\"aiHistory\", aiList);\n\n// กำหนด payload ของขาที่ 1 เป็น List สำหรับ Table\nmsg.payload = aiList;\n\n\n// --- ส่วนที่ 2: จัดการข้อมูลสำหรับ CSV (ขาที่ 2) ---\nvar msgCSV = {};\n\nvar day = String(now.getDate()).padStart(2, '0');\nvar month = String(now.getMonth() + 1).padStart(2, '0');\nvar year = now.getFullYear();\nvar dateStr = `${day}-${month}-${year}`;\n\nmsgCSV.filename = `D:/LE380/mini-MQTT/ai_log_${dateStr}.csv`;\nmsgCSV.payload = `${timeLog},\"${ai.activity}\",\"${ai.reason}\",${ai.score}\\n`;\n\n// ส่งออก 2 ขา\nreturn [msg, msgCSV];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1470,
+        "y": 1180,
+        "wires": [
+            [
+                "dcd8bcc0d4f1211a"
+            ],
+            [
+                "save_ai_file"
+            ]
+        ]
+    },
+    {
+        "id": "save_ai_file",
+        "type": "file",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save AI Log",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1690,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3091f18b7e2662fc",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 620,
+        "y": 420,
+        "wires": [
+            [
+                "66fa1c58f5d19728",
+                "e5398f2309a1b75d",
+                "deae57df0b5e32a6",
+                "fbb462020fda8abf",
+                "debug_node"
+            ]
+        ]
+    },
+    {
+        "id": "cb34c930109ea068",
+        "type": "exec",
+        "z": "f6f2187d.f17ca8",
+        "command": "dir \"D:\\LE380\\mini-MQTT\\*.csv\" /b",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "List CSV Files (Win)",
+        "x": 400,
+        "y": 1480,
+        "wires": [
+            [
+                "fb7f69d854b2f337"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "fb7f69d854b2f337",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format for Dropdown",
+        "func": "// 1. รับค่ารายชื่อไฟล์มาจาก Command Line\nvar fileListString = msg.payload;\n\n// ถ้าไม่มีข้อมูล ให้จบการทำงาน\nif (!fileListString) return msg;\n\n// 2. แยกบรรทัดและทำความสะอาด\nvar files = fileListString.split(\"\\n\"); // ใช้ \\n รองรับทั้ง Windows/Linux\n\nvar options = [];\n\nfiles.forEach(function(filename) {\n    // ลบช่องว่างหัวท้าย\n    filename = filename.trim();\n    \n    // เงื่อนไขการคัดเลือกไฟล์:\n    // 1. ต้องไม่เป็นค่าว่าง\n    // 2. ต้องลงท้ายด้วย .csv\n    // 3. (สำคัญ) ต้องขึ้นต้นด้วย \"data_\" เท่านั้น (เพื่อตัดไฟล์ ai_log ทิ้ง)\n    if (filename.length > 0 && filename.endsWith(\".csv\") && filename.startsWith(\"ai_\")) {\n        options.push(filename);\n    }\n});\n\n// 3. เรียงลำดับจาก \"มากไปน้อย\" \noptions.sort().reverse();\n\n// 4. ส่งไปให้ Dropdown แสดงผล\nmsg.options = options;\n\n// (แถม) ตั้งค่า Default ให้เลือกไฟล์บนสุดเสมอ (ไฟล์ล่าสุด)\nif (options.length > 0) {\n    msg.payload = options[0]; \n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 1480,
+        "wires": [
+            [
+                "2d6c33a9c26d8da8"
+            ]
+        ]
+    },
+    {
+        "id": "88c20a8f606b3a31",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Set Full Path",
+        "func": "// ตั้งค่า Path โฟลเดอร์หลัก (ต้องแก้ตรงนี้ให้ตรงกับเครื่องคุณ)\nvar basePath = \"D:/LE380/mini-MQTT/\";\n\n// เอาชื่อไฟล์ที่เลือกจาก Dropdown มาต่อท้าย\nmsg.filename = basePath + msg.payload;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 1560,
+        "wires": [
+            [
+                "8bf1bf95ab8db162"
+            ]
+        ]
+    },
+    {
+        "id": "8bf1bf95ab8db162",
+        "type": "file in",
+        "z": "f6f2187d.f17ca8",
+        "name": "Read File",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 730,
+        "y": 1560,
+        "wires": [
+            [
+                "5be143535e1458b8"
+            ]
+        ]
+    },
+    {
+        "id": "5be143535e1458b8",
+        "type": "csv",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "time,activity,reason,score",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 900,
+        "y": 1560,
+        "wires": [
+            [
+                "b7461f93e8a3dac3"
+            ]
+        ]
+    },
+    {
+        "id": "2d6c33a9c26d8da8",
+        "type": "ui-dropdown",
+        "z": "f6f2187d.f17ca8",
+        "group": "52f3c42ebaea6b6f",
+        "name": "",
+        "label": "Select Option:",
+        "tooltip": "",
+        "order": 1,
+        "width": "10",
+        "height": "1",
+        "passthru": false,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 840,
+        "y": 1480,
+        "wires": [
+            [
+                "de85a8085de00b6b"
+            ]
+        ]
+    },
+    {
+        "id": "de85a8085de00b6b",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save to Memory",
+        "rules": [
+            {
+                "t": "set",
+                "p": "selected_csv",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 1480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9cf509240cd40f4a",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Get Filename",
+        "func": "// ดึงชื่อไฟล์ที่ฝากไว้ใน Memory (flow variable)\nvar filename = flow.get(\"selected_csv\");\n\n// ถ้ายังไม่เคยเลือกไฟล์เลย ให้แจ้งเตือนและหยุดทำงาน\nif (!filename) {\n    node.warn(\"กรุณาเลือกไฟล์ก่อนกดปุ่ม\");\n    msg.payload = \"Please select a file first!\";\n    // return null เพื่อไม่ให้ส่งไปทำงานต่อ\n    return null;\n}\n\n// ถ้ามีชื่อไฟล์ ก็ส่งต่อไปทำงานต่อได้เลย\nmsg.payload = filename;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 1560,
+        "wires": [
+            [
+                "88c20a8f606b3a31"
+            ]
+        ]
+    },
+    {
+        "id": "fc3fdafa2ef346dd",
+        "type": "ui-button",
+        "z": "f6f2187d.f17ca8",
+        "group": "52f3c42ebaea6b6f",
+        "name": "Load_button",
+        "label": "Load data",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 1560,
+        "wires": [
+            [
+                "9cf509240cd40f4a"
+            ]
+        ]
+    },
+    {
+        "id": "e67acd11ae6cf07d",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "900",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1480,
+        "wires": [
+            [
+                "cb34c930109ea068"
+            ]
+        ]
+    },
+    {
+        "id": "b7461f93e8a3dac3",
+        "type": "ui-table",
+        "z": "f6f2187d.f17ca8",
+        "group": "52f3c42ebaea6b6f",
+        "name": "AI History",
+        "label": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1060,
+        "y": 1560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dcd8bcc0d4f1211a",
+        "type": "ui-table",
+        "z": "f6f2187d.f17ca8",
+        "group": "c7218db6c6bff541",
+        "name": "AI monitor",
+        "label": "",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": false,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "Time",
+                "key": "time",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Activity",
+                "key": "activity",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Reason",
+                "key": "reason",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Score",
+                "key": "score",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            }
+        ],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1690,
+        "y": 1140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "json_node",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 410,
+        "y": 320,
+        "wires": [
+            [
+                "6662b9134e485207",
+                "3091f18b7e2662fc"
+            ]
+        ]
+    },
+    {
+        "id": "emqx_broker",
+        "type": "mqtt-broker",
+        "name": "EMQX Public",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "9779968d831e3c27",
+        "type": "ui-group",
+        "name": "Temp",
+        "page": "b29a2e315150a662",
+        "width": "12",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "2f49acb8ebf3ba0c",
+        "type": "ui-group",
+        "name": "Humid",
+        "page": "7598257cf0ca1550",
+        "width": "12",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "b922c537351278e0",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "989f8eb23db8b6a2",
+        "type": "ui-group",
+        "name": "Light",
+        "page": "4e8e43c346a3ad10",
+        "width": "12",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "38c320e9938e1ab0",
+        "type": "ui-group",
+        "name": "Data",
+        "page": "4c8c2c3c6a808560",
+        "width": "12",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "c7218db6c6bff541",
+        "type": "ui-group",
+        "name": "🤖 AI Comfort Score",
+        "page": "b0610d06489ae126",
+        "width": "12",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "52f3c42ebaea6b6f",
+        "type": "ui-group",
+        "name": "AI History",
+        "page": "b0610d06489ae126",
+        "width": "12",
+        "height": 1,
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "b29a2e315150a662",
+        "type": "ui-page",
+        "name": "Temperature",
+        "ui": "b922c537351278e0",
+        "path": "/temp",
+        "icon": "Temp",
+        "layout": "grid",
+        "theme": "016f86d61dd96bcd",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "7598257cf0ca1550",
+        "type": "ui-page",
+        "name": "Humid",
+        "ui": "b922c537351278e0",
+        "path": "/humid",
+        "icon": "humid",
+        "layout": "grid",
+        "theme": "016f86d61dd96bcd",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 3,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "4e8e43c346a3ad10",
+        "type": "ui-page",
+        "name": "Light",
+        "ui": "b922c537351278e0",
+        "path": "/light",
+        "icon": "light",
+        "layout": "grid",
+        "theme": "016f86d61dd96bcd",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 4,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "4c8c2c3c6a808560",
+        "type": "ui-page",
+        "name": "Data History",
+        "ui": "b922c537351278e0",
+        "path": "/Data",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "016f86d61dd96bcd",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "b0610d06489ae126",
+        "type": "ui-page",
+        "name": "Room Status Analysis",
+        "ui": "b922c537351278e0",
+        "path": "/Analysis",
+        "icon": "room",
+        "layout": "grid",
+        "theme": "016f86d61dd96bcd",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 5,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "016f86d61dd96bcd",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "1253f5af673a2041",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
